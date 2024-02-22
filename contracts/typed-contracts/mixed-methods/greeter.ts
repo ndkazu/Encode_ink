@@ -40,12 +40,34 @@ export default class Methods {
 	/**
 	* greet
 	*
-	* @returns { Result<string, ReturnTypes.LangError> }
+	* @returns { Result<Array<string>, ReturnTypes.LangError> }
 	*/
 	"greet" (
 		__options: GasLimit,
-	): Promise< QueryReturnType< Result<string, ReturnTypes.LangError> > >{
-		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "greet", [], __options, (result) => { return handleReturnType(result, getTypeDescription(4, DATA_TYPE_DESCRIPTIONS)); });
+	): Promise< QueryReturnType< Result<Array<string>, ReturnTypes.LangError> > >{
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "greet", [], __options, (result) => { return handleReturnType(result, getTypeDescription(5, DATA_TYPE_DESCRIPTIONS)); });
+	}
+
+	/**
+	* index
+	*
+	* @returns { Result<number, ReturnTypes.LangError> }
+	*/
+	"index" (
+		__options: GasLimit,
+	): Promise< QueryReturnType< Result<number, ReturnTypes.LangError> > >{
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "index", [], __options, (result) => { return handleReturnType(result, getTypeDescription(6, DATA_TYPE_DESCRIPTIONS)); });
+	}
+
+	/**
+	* getBlock
+	*
+	* @returns { Result<number, ReturnTypes.LangError> }
+	*/
+	"getBlock" (
+		__options: GasLimit,
+	): Promise< QueryReturnType< Result<number, ReturnTypes.LangError> > >{
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "getBlock", [], __options, (result) => { return handleReturnType(result, getTypeDescription(6, DATA_TYPE_DESCRIPTIONS)); });
 	}
 
 	/**

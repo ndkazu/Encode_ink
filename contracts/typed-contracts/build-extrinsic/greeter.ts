@@ -31,6 +31,26 @@ export default class Methods {
 	}
 
 	/**
+	 * index
+	 *
+	*/
+	"index" (
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "index", [], __options);
+	}
+
+	/**
+	 * getBlock
+	 *
+	*/
+	"getBlock" (
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "getBlock", [], __options);
+	}
+
+	/**
 	 * setMessage
 	 *
 	 * @param { string } newValue,

@@ -3,6 +3,7 @@
 #[ink::contract]
 mod greeter {
     use ink::prelude::string::String;
+    use ink::prelude::{vec, vec::Vec};
 
     #[ink(event)]
     pub struct Greeted {
@@ -12,35 +13,48 @@ mod greeter {
 
     #[ink(storage)]
     pub struct Greeter {
-        message: String,
+        message: Vec<String>,
     }
 
     impl Greeter {
-        /// Creates a new greeter contract initialized with the given value.
+        /// Creates a new greeter contract containing the given value.
         #[ink(constructor)]
         pub fn new(init_value: String) -> Self {
-            Self {
-                message: init_value,
-            }
+            let mut mess = vec![];
+            mess.push(init_value);
+            Self { message: mess }
         }
 
-        /// Creates a new greeter contract initialized to 'Hello ink!'.
+        /// Creates a new greeter contract containing 'Hello ink!'.
         #[ink(constructor)]
         pub fn default() -> Self {
             let default_message = String::from("Hello ink!");
             Self::new(default_message)
         }
 
-        /// Returns the current value of `message`.
+        /// Returns the current list of `message`.
         #[ink(message)]
-        pub fn greet(&self) -> String {
+        pub fn greet(&self) -> Vec<String> {
             self.message.clone()
         }
 
-        /// Sets `message` to the given value.
+        #[ink(message)]
+        pub fn index(&self) -> u32 {
+            let vec = Self::greet(&self);
+            let block = self.env().block_number();
+            let num = block % vec.len() as u32;
+            num
+        }
+
+        #[ink(message)]
+        pub fn get_block(&self) -> u32 {
+            self.env().block_number()
+        }
+
+        /// Add the given value to `message` .
         #[ink(message)]
         pub fn set_message(&mut self, new_value: String) {
-            self.message = new_value.clone();
+            self.message.push(new_value.clone());
 
             let from = self.env().caller();
             self.env().emit_event(Greeted {
@@ -58,24 +72,24 @@ mod greeter {
         fn new_works() {
             let message = "Hello ink! v4".to_string();
             let greeter = Greeter::new(message.clone());
-            assert_eq!(greeter.greet(), message);
+            assert_eq!(greeter.greet()[0], message);
         }
 
         #[ink::test]
         fn default_new_works() {
             let greeter = Greeter::default();
             let default_message = String::from("Hello ink!");
-            assert_eq!(greeter.greet(), default_message);
+            assert_eq!(greeter.greet()[0], default_message);
         }
 
         #[ink::test]
         fn set_message_works() {
             let message_1 = String::from("gm ink!");
             let mut greeter = Greeter::new(message_1.clone());
-            assert_eq!(greeter.greet(), message_1);
+            assert_eq!(greeter.greet()[0], message_1);
             let message_2 = String::from("gn");
             greeter.set_message(message_2.clone());
-            assert_eq!(greeter.greet(), message_2);
+            assert_eq!(greeter.greet()[1], message_2);
         }
     }
 }

@@ -6,8 +6,6 @@ import { ContractIds } from '@/deployments/deployments'
 import { zodResolver } from '@hookform/resolvers/zod'
 import GreeterContract from '@inkathon/contracts/typed-contracts/contracts/greeter'
 import {
-  contractQuery,
-  decodeOutput,
   useInkathon,
   useRegisteredContract,
   useRegisteredTypedContract,
@@ -32,6 +30,9 @@ export const GreeterContractInteractions: FC = () => {
   const { typedContract } = useRegisteredTypedContract(ContractIds.Greeter, GreeterContract)
   const [greeterMessage, setGreeterMessage] = useState<string>()
   const [fetchIsLoading, setFetchIsLoading] = useState<boolean>()
+  const [block, setBlock] = useState<number>()
+  const [index, setIndex] = useState<number>()
+  const [minutes, setMinutes] = useState<number>()
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   })
@@ -43,15 +44,18 @@ export const GreeterContractInteractions: FC = () => {
     if (!contract || !typedContract || !api) return
 
     setFetchIsLoading(true)
-    try {
-      const result = await contractQuery(api, '', contract, 'greet')
-      const { output, isError, decodedOutput } = decodeOutput(result, contract, 'greet')
-      if (isError) throw new Error(decodedOutput)
-      setGreeterMessage(output)
 
+    try {
       // Alternatively: Fetch it with typed contract instance
-      const typedResult = await typedContract.query.greet()
-      console.log('Result from typed contract: ', typedResult.value)
+
+      setIndex((await typedContract.query.index()).value.ok)
+      if (!index) return
+      const typedResult = (await typedContract.query.greet()).value.ok?.[index]
+      setBlock((await typedContract.query.getBlock()).value.ok)
+
+      console.log('the block number id : ', block)
+      console.log('Result from typed contract: ', typedResult)
+      setGreeterMessage(typedResult)
     } catch (e) {
       console.error(e)
       toast.error('Error while fetching greeting. Try again…')
@@ -60,9 +64,21 @@ export const GreeterContractInteractions: FC = () => {
       setFetchIsLoading(false)
     }
   }
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      const dateObject = new Date()
+      const min = dateObject.getMinutes()
+
+      setMinutes(min)
+      console.log('the current minute is: ', minutes)
+    }, 1000)
+    return () => clearInterval(intervalId)
+  }, [])
+
   useEffect(() => {
     fetchGreeting()
-  }, [typedContract])
+  }, [minutes, typedContract])
 
   // Update Greeting
   const updateGreeting: SubmitHandler<z.infer<typeof formSchema>> = async ({ newMessage }) => {
