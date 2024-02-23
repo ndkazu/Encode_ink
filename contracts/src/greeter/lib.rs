@@ -39,16 +39,10 @@ mod greeter {
         }
 
         #[ink(message)]
-        pub fn index(&self) -> u32 {
+        pub fn index(&self, coef: u32) -> u32 {
             let vec = Self::greet(&self);
-            let block = self.env().block_number();
-            let num = block % vec.len() as u32;
+            let num = coef % vec.len() as u32;
             num
-        }
-
-        #[ink(message)]
-        pub fn get_block(&self) -> u32 {
-            self.env().block_number()
         }
 
         /// Add the given value to `message` .

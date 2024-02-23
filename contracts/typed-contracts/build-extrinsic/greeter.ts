@@ -33,21 +33,13 @@ export default class Methods {
 	/**
 	 * index
 	 *
+	 * @param { (number | string | BN) } coef,
 	*/
 	"index" (
+		coef: (number | string | BN),
 		__options: GasLimit,
 	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "index", [], __options);
-	}
-
-	/**
-	 * getBlock
-	 *
-	*/
-	"getBlock" (
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "getBlock", [], __options);
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "index", [coef], __options);
 	}
 
 	/**

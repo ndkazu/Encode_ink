@@ -1,6 +1,6 @@
 {
   "source": {
-    "hash": "0xc51d316ba886f843846486a2518f466beb1616a37a166a7616723887d20e1cbb",
+    "hash": "0xc3dc5df7d2b14bd804f4f0b1ab4d19d2f8da58ee62fe21858cb306880d1c7955",
     "language": "ink! 4.3.0",
     "compiler": "rustc 1.76.0",
     "build_info": {
@@ -85,7 +85,7 @@
         "displayName": [
           "BlockNumber"
         ],
-        "type": 7
+        "type": 6
       },
       "chainExtension": {
         "displayName": [
@@ -164,7 +164,17 @@
         "selector": "0x052cda08"
       },
       {
-        "args": [],
+        "args": [
+          {
+            "label": "coef",
+            "type": {
+              "displayName": [
+                "u32"
+              ],
+              "type": 6
+            }
+          }
+        ],
         "default": false,
         "docs": [],
         "label": "index",
@@ -175,25 +185,9 @@
             "ink",
             "MessageResult"
           ],
-          "type": 6
+          "type": 7
         },
         "selector": "0x6a66d6c5"
-      },
-      {
-        "args": [],
-        "default": false,
-        "docs": [],
-        "label": "get_block",
-        "mutates": false,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 6
-        },
-        "selector": "0x446794d0"
       },
       {
         "args": [
@@ -380,12 +374,20 @@
       "id": 6,
       "type": {
         "def": {
+          "primitive": "u32"
+        }
+      }
+    },
+    {
+      "id": 7,
+      "type": {
+        "def": {
           "variant": {
             "variants": [
               {
                 "fields": [
                   {
-                    "type": 7
+                    "type": 6
                   }
                 ],
                 "index": 0,
@@ -406,7 +408,7 @@
         "params": [
           {
             "name": "T",
-            "type": 7
+            "type": 6
           },
           {
             "name": "E",
@@ -416,14 +418,6 @@
         "path": [
           "Result"
         ]
-      }
-    },
-    {
-      "id": 7,
-      "type": {
-        "def": {
-          "primitive": "u32"
-        }
       }
     },
     {

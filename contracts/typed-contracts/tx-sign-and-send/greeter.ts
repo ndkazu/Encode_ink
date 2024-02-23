@@ -43,25 +43,15 @@ export default class Methods {
 	/**
 	* index
 	*
+	* @param { (number | string | BN) } coef,
 	*/
 	"index" (
+		coef: (number | string | BN),
 		__options ? : GasLimit,
 	){
 		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "index", (events: EventRecord) => {
 			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [], __options);
-	}
-
-	/**
-	* getBlock
-	*
-	*/
-	"getBlock" (
-		__options ? : GasLimit,
-	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "getBlock", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [], __options);
+		}, [coef], __options);
 	}
 
 	/**
