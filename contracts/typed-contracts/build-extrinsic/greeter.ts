@@ -23,11 +23,13 @@ export default class Methods {
 	/**
 	 * greet
 	 *
+	 * @param { (number | string | BN) } ind,
 	*/
 	"greet" (
+		ind: (number | string | BN),
 		__options: GasLimit,
 	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "greet", [], __options);
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "greet", [ind], __options);
 	}
 
 	/**

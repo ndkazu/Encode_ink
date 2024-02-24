@@ -31,13 +31,15 @@ export default class Methods {
 	/**
 	* greet
 	*
+	* @param { (number | string | BN) } ind,
 	*/
 	"greet" (
+		ind: (number | string | BN),
 		__options ? : GasLimit,
 	){
 		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "greet", (events: EventRecord) => {
 			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [], __options);
+		}, [ind], __options);
 	}
 
 	/**

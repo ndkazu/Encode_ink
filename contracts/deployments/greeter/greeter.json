@@ -1,6 +1,6 @@
 {
   "source": {
-    "hash": "0xc3dc5df7d2b14bd804f4f0b1ab4d19d2f8da58ee62fe21858cb306880d1c7955",
+    "hash": "0xb35422e83c04d89d132dcef51b3e8f30daa5812c6818b4a80147e1de3894be3c",
     "language": "ink! 4.3.0",
     "compiler": "rustc 1.76.0",
     "build_info": {
@@ -85,7 +85,7 @@
         "displayName": [
           "BlockNumber"
         ],
-        "type": 6
+        "type": 5
       },
       "chainExtension": {
         "displayName": [
@@ -146,7 +146,17 @@
     },
     "messages": [
       {
-        "args": [],
+        "args": [
+          {
+            "label": "ind",
+            "type": {
+              "displayName": [
+                "u32"
+              ],
+              "type": 5
+            }
+          }
+        ],
         "default": false,
         "docs": [
           " Returns the current list of `message`."
@@ -159,7 +169,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 5
+          "type": 6
         },
         "selector": "0x052cda08"
       },
@@ -171,7 +181,7 @@
               "displayName": [
                 "u32"
               ],
-              "type": 6
+              "type": 5
             }
           }
         ],
@@ -332,12 +342,20 @@
       "id": 5,
       "type": {
         "def": {
+          "primitive": "u32"
+        }
+      }
+    },
+    {
+      "id": 6,
+      "type": {
+        "def": {
           "variant": {
             "variants": [
               {
                 "fields": [
                   {
-                    "type": 0
+                    "type": 1
                   }
                 ],
                 "index": 0,
@@ -358,7 +376,7 @@
         "params": [
           {
             "name": "T",
-            "type": 0
+            "type": 1
           },
           {
             "name": "E",
@@ -371,14 +389,6 @@
       }
     },
     {
-      "id": 6,
-      "type": {
-        "def": {
-          "primitive": "u32"
-        }
-      }
-    },
-    {
       "id": 7,
       "type": {
         "def": {
@@ -387,7 +397,7 @@
               {
                 "fields": [
                   {
-                    "type": 6
+                    "type": 5
                   }
                 ],
                 "index": 0,
@@ -408,7 +418,7 @@
         "params": [
           {
             "name": "T",
-            "type": 6
+            "type": 5
           },
           {
             "name": "E",

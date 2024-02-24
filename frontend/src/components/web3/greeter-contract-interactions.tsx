@@ -30,7 +30,7 @@ export const GreeterContractInteractions: FC = () => {
   const { typedContract } = useRegisteredTypedContract(ContractIds.Greeter, GreeterContract)
   const [greeterMessage, setGreeterMessage] = useState<string>()
   const [fetchIsLoading, setFetchIsLoading] = useState<boolean>()
-  const [index, setIndex] = useState<number>()
+  const [index, setIndex] = useState(0)
   const [sec, setSec] = useState(0)
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -46,13 +46,22 @@ export const GreeterContractInteractions: FC = () => {
 
     try {
       // Alternatively: Fetch it with typed contract instance
-      if (!sec) return
-      setIndex((await typedContract.query.index(sec)).value.ok)
-      if (!index) return
-      const typedResult = (await typedContract.query.greet()).value.ok?.[index]
+      if (sec !== undefined) {
+        console.log('value of sec: ', sec)
+        const val = await (await typedContract.query.index(sec)).value.ok
+        if (val !== undefined) {
+          setIndex(val)
+        } else {
+          setIndex(0)
+        }
+        console.log('value of index: ', index)
+      }
 
-      console.log('Result from typed contract: ', typedResult)
-      setGreeterMessage(typedResult)
+      const typedResult = await typedContract.query.greet(index)
+      /*if (index !== undefined) {
+        const typedResult = (await typedContract.query.greet()).value
+      }*/
+      setGreeterMessage(typedResult.value.ok)
     } catch (e) {
       console.error(e)
       toast.error('Error while fetching greeting. Try again…')
@@ -66,9 +75,8 @@ export const GreeterContractInteractions: FC = () => {
     const intervalId = setInterval(() => {
       const dateObject = new Date()
       const seconds = dateObject.getSeconds()
-      if (seconds % 5 === 0 || seconds % 1 === 0 || seconds % 5 === 0) {
+      if (seconds % 5 === 0 || seconds % 1 === 0 || seconds % 3 === 0) {
         setSec(seconds + sec)
-        console.log('value of sec: ', sec)
       }
     }, 1000)
     return () => clearInterval(intervalId)

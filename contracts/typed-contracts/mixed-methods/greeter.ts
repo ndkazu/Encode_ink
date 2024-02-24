@@ -40,12 +40,14 @@ export default class Methods {
 	/**
 	* greet
 	*
-	* @returns { Result<Array<string>, ReturnTypes.LangError> }
+	* @param { (number | string | BN) } ind,
+	* @returns { Result<string, ReturnTypes.LangError> }
 	*/
 	"greet" (
+		ind: (number | string | BN),
 		__options: GasLimit,
-	): Promise< QueryReturnType< Result<Array<string>, ReturnTypes.LangError> > >{
-		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "greet", [], __options, (result) => { return handleReturnType(result, getTypeDescription(5, DATA_TYPE_DESCRIPTIONS)); });
+	): Promise< QueryReturnType< Result<string, ReturnTypes.LangError> > >{
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "greet", [ind], __options, (result) => { return handleReturnType(result, getTypeDescription(6, DATA_TYPE_DESCRIPTIONS)); });
 	}
 
 	/**
